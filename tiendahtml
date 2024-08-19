@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda en Línea</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://i.ibb.co/BwQkpYz/djdjdk.png') repeat-x center/cover fixed;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: backgroundMove 10s linear infinite;
+        }
+
+        @keyframes backgroundMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 100% 0; }
+        }
+
+        header {
+            width: 100%;
+            padding: 20px 0;
+            position: relative;
+            z-index: 1000;
+            transition: top 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: none;
+        }
+
+        .logo {
+            margin-left: 20px;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .logo img {
+            max-width: 150px;
+            height: auto;
+        }
+
+        .search-bar {
+            flex: 2;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-bar input {
+            width: 100%;
+            max-width: 500px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+
+        .whatsapp-support {
+            margin-right: 20px;
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .whatsapp-support button {
+            background-color: #25d366;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+            width: 100%;
+            max-width: 200px;
+        }
+
+        .whatsapp-support button:hover {
+            background-color: #128c7e;
+        }
+
+        .currency-selector {
+            margin: 20px auto 0;
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 50px;
+            padding: 10px 20px;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1000;
+        }
+
+        .currency-selector img {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+            border-radius: 50%;
+        }
+
+        .currency-selector span {
+            margin-right: 5px;
+        }
+
+        .currency-selector .arrow {
+            margin-left: 5px;
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #333;
+        }
+
+        .currency-dropdown {
+            display: none;
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .currency-dropdown div {
+            padding: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .currency-dropdown div:hover {
+            background-color: #f0f0f0;
+        }
+
+        .currency-dropdown div img {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .product {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .product img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .product img:hover {
+            transform: translateY(-5px);
+        }
+
+        .product h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .product p {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #777;
+        }
+
+        .product button {
+            background-color: #0070ba;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .product button:hover {
+            background-color: #005a9c;
+        }
+    </style>
+</head>
+<body>
+
+<header id="header">
+    <div class="logo">
+        <img src="https://i.ibb.co/6s0f71y/pngwing-com.png" alt="Logo de la tienda">
+    </div>
+    <div class="search-bar">
+        <input type="text" placeholder="Buscar productos..." oninput="filterProducts(this.value)">
+    </div>
+    <div class="whatsapp-support">
+        <button onclick="window.location.href='https://wa.me/50578987080?text=Vengo%20de%20la%20tienda%20en%20línea%20por%20soporte';">
+            Soporte WhatsApp
+        </button>
+    </div>
+</header>
+
+<div class="currency-selector" onclick="toggleDropdown()">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" alt="USD">
+    <span id="selected-currency">USD</span>
+    <div class="arrow"></div>
+    <div class="currency-dropdown" id="currencyDropdown">
+        <div onclick="changeCurrency('USD', 1, 'https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" alt="USD">
+            USD
+        </div>
+        <div onclick="changeCurrency('NIO', 37.10, 'https://upload.wikimedia.org/wikipedia/commons/1/19/Flag_of_Nicaragua.svg')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Flag_of_Nicaragua.svg" alt="NIO">
+            NIO
+        </div>
+        <div onclick="changeCurrency('MXN', 18.80, 'https://upload.wikimedia.org/wikipedia/commons/f/fc/Flag_of_Mexico.svg')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/f/fc/Flag_of_Mexico.svg" alt="MXN">
+            MXN
+        </div>
+        <div onclick="changeCurrency('CLP', 940.48, 'https://upload.wikimedia.org/wikipedia/commons/7/78/Flag_of_Chile.svg')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Flag_of_Chile.svg" alt="CLP">
+            CLP
+        </div>
+        <div onclick="changeCurrency('PEN', 3.79, 'https://upload.wikimedia.org/wikipedia/commons/c/cf/Flag_of_Peru.svg')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/cf/Flag_of_Peru.svg" alt="PEN">
+            PEN
+        </div>
+    </div>
+</div>
+
+<section class="product-grid" id="productGrid">
+    <!-- Generating 20 products -->
+    <script>
+        const products = [];
+
+        for (let i = 1; i <= 20; i++) {
+            products.push(`
+                <div class="product" data-name="Producto ${i}">
+                    <img src="https://via.placeholder.com/300x200?text=Producto+${i}" alt="Producto ${i}">
+                    <h2>Producto ${i}</h2>
+                    <p><span class="currency-symbol">USD</span> <span class="price-value" data-usd="20">20.00</span></p>
+                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                        <input type="hidden" name="cmd" value="_xclick">
+                        <input type="hidden" name="business" value="rugamamartineznoah@icloud.com">
+                        <input type="hidden" name="item_name" value="Ejemplo ${i}">
+                        <input type="hidden" name="amount" class="paypal-amount" value="20">
+                        <input type="hidden" name="currency_code" id="currencyCode" value="USD">
+                        <button type="submit">Pagar</button>
+                    </form>
+                </div>
+            `);
+        }
+
+        document.getElementById('productGrid').innerHTML = products.join('');
+    </script>
+</section>
+
+<script>
+    function toggleDropdown() {
+        const dropdown = document.getElementById('currencyDropdown');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function changeCurrency(currency, rate, flag) {
+        const priceElements = document.querySelectorAll('.price-value');
+        const currencySymbolElements = document.querySelectorAll('.currency-symbol');
+        const paypalAmountElements = document.querySelectorAll('.paypal-amount');
+
+        priceElements.forEach(element => {
+            const usdValue = element.getAttribute('data-usd');
+            element.textContent = (usdValue * rate).toFixed(2);
+        });
+
+        currencySymbolElements.forEach(element => {
+            element.textContent = currency;
+        });
+
+        paypalAmountElements.forEach(element => {
+            const usdValue = element.getAttribute('data-usd');
+            element.value = (usdValue * rate).toFixed(2);
+        });
+
+        document.getElementById('selected-currency').textContent = currency;
+        document.getElementById('currencyCode').value = currency;
+        document.querySelector('.currency-selector img').src = flag;
+
+        toggleDropdown(); // Close the dropdown after selection
+    }
+
+    function filterProducts(query) {
+        const products = document.querySelectorAll('.product');
+        products.forEach(product => {
+            const name = product.getAttribute('data-name').toLowerCase();
+            if (name.includes(query.toLowerCase())) {
+                product.style.display = 'block';
+            } else {
+                product.style.display = 'none';
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
